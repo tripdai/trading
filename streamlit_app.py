@@ -3,12 +3,11 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 
-# Simplified MA computation using pandas built-in functions to avoid shape errors
+# Simplified MA computation using pandas built-in functions
 
 def fetch_price_history(symbol, period='7d', interval='5m'):
     df = yf.download(symbol, period=period, interval=interval)
     df.reset_index(inplace=True)
-    # Ensure necessary columns
     df = df[['Date', 'Close']].dropna()
     return df
 
@@ -34,8 +33,7 @@ def compute_ma_scores(df):
 
     return score, details, df
 
-
-# Streamlit UI
+# Streamlit App
 st.set_page_config(page_title="A++ Options Trading MA Dashboard", layout="wide")
 st.title("A++ Options Trading MA Dashboard")
 
@@ -57,5 +55,4 @@ with col2:
     st.line_chart(df_plot)
 
 st.markdown("---")
-st.info("This Streamlit app uses yfinance for data and pandas for MAs—zero shape errors, ready for web hosting!")
-```
+st.info("This Streamlit app uses yfinance for data and pandas for MAs. Deploy on Streamlit Cloud!")
