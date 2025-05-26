@@ -1,1 +1,4 @@
- ```text    streamlit    pandas    yfinance    ta    ```
+ streamlit>=1.25.0
+   pandas>=1.5.0
+   yfinance>=0.2.18
+   ta>=0.10.2
