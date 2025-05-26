@@ -1,19 +1,16 @@
-# streamlit_app.py
+```python
 import streamlit as st
 import pandas as pd
 import yfinance as yf
 
-# Simplified MA computation using pandas built-in functions
-
+# Fetch and clean price data
 def fetch_price_history(symbol, period='7d', interval='5m'):
     df = yf.download(symbol, period=period, interval=interval)
     df.reset_index(inplace=True)
-    df = df[['Date', 'Close']].dropna()
-    return df
+    return df[['Date', 'Close']].dropna()
 
-
+# Compute EMA34, EMA89, SMA50 and score
 def compute_ma_scores(df):
-    # Compute moving averages with pandas
     df['ema34'] = df['Close'].ewm(span=34, adjust=False).mean()
     df['ema89'] = df['Close'].ewm(span=89, adjust=False).mean()
     df['sma50'] = df['Close'].rolling(window=50).mean()
@@ -21,7 +18,6 @@ def compute_ma_scores(df):
     latest = df.iloc[-1]
     score = 0
     details = {}
-
     if latest['Close'] > latest['ema34']:
         score += 1; details['Above EMA34'] = True
     if latest['Close'] > latest['ema89']:
@@ -33,7 +29,7 @@ def compute_ma_scores(df):
 
     return score, details, df
 
-# Streamlit App
+# Streamlit UI layout
 st.set_page_config(page_title="A++ Options Trading MA Dashboard", layout="wide")
 st.title("A++ Options Trading MA Dashboard")
 
@@ -55,4 +51,5 @@ with col2:
     st.line_chart(df_plot)
 
 st.markdown("---")
-st.info("This Streamlit app uses yfinance for data and pandas for MAs. Deploy on Streamlit Cloud!")
+st.info("This app uses yfinance for data and pandas for moving averages. Deploy on Streamlit Cloud!")
+```
